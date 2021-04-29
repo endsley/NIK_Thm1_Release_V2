@@ -53,15 +53,15 @@ class wumasoomi():
 if __name__ == "__main__":
 
 # Run 10 Fold, uncomment the experiment you want to run
+	run_10_fold('adversarial', wumasoomi, smallest_σ=0.001, number_of_σ_to_test=20)
 #	run_10_fold('wine', wumasoomi, smallest_σ=0.05, number_of_σ_to_test=20)
 #	run_10_fold('cancer', wumasoomi, smallest_σ=0.05, number_of_σ_to_test=20)
 #	run_10_fold('random', wumasoomi, smallest_σ=0.05, number_of_σ_to_test=20)
-#	run_10_fold('adversarial', wumasoomi, smallest_σ=0.001, number_of_σ_to_test=20)
 #	run_10_fold('spiral', wumasoomi, smallest_σ=0.05, number_of_σ_to_test=20)
 #	run_10_fold('car', wumasoomi, smallest_σ=0.05, number_of_σ_to_test=20)
 #	run_10_fold('divorce', wumasoomi, smallest_σ=0.1, number_of_σ_to_test=40, use_kernel_trick=True)
 #	run_10_fold('face', wumasoomi, smallest_σ=0.05, number_of_σ_to_test=20)
-	run_10_fold('cifar10', wumasoomi, smallest_σ=0.05, number_of_σ_to_test=20)
+#	run_10_fold('cifar10', wumasoomi, smallest_σ=0.05, number_of_σ_to_test=20)
 
 
 	#evaluate_10_fold_result('./results/' + data_name + '/10Fold_summary.txt')
