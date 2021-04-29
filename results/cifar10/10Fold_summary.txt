@@ -1,0 +1,13 @@
+run:1, σ: 0.42, L: 8, TrainAcc: 0.79, TestAcc: 0.72, Time: 148.12, Ҥ1: 0.53, Ҥ2:0.54, mse : 0.16, ce : 0.88, csr : 0.17, T : 0.05
+run:2, σ: 0.44, L: 7, TrainAcc: 0.82, TestAcc: 0.73, Time: 145.04, Ҥ1: 0.55, Ҥ2:0.55, mse : 0.15, ce : 0.81, csr : 0.15, T : 0.04
+run:3, σ: 0.38, L: 8, TrainAcc: 0.80, TestAcc: 0.72, Time: 154.14, Ҥ1: 0.54, Ҥ2:0.55, mse : 0.17, ce : 0.86, csr : 0.16, T : 0.05
+run:4, σ: 0.44, L: 7, TrainAcc: 0.81, TestAcc: 0.76, Time: 144.89, Ҥ1: 0.55, Ҥ2:0.57, mse : 0.15, ce : 0.83, csr : 0.15, T : 0.04
+run:5, σ: 0.37, L: 8, TrainAcc: 0.78, TestAcc: 0.72, Time: 169.43, Ҥ1: 0.51, Ҥ2:0.54, mse : 0.18, ce : 0.92, csr : 0.16, T : 0.05
+run:6, σ: 0.39, L: 8, TrainAcc: 0.80, TestAcc: 0.74, Time: 159.54, Ҥ1: 0.55, Ҥ2:0.56, mse : 0.17, ce : 0.85, csr : 0.14, T : 0.04
+run:7, σ: 0.43, L: 6, TrainAcc: 0.84, TestAcc: 0.79, Time: 141.49, Ҥ1: 0.58, Ҥ2:0.56, mse : 0.13, ce : 0.75, csr : 0.14, T : 0.04
+run:8, σ: 0.43, L: 7, TrainAcc: 0.82, TestAcc: 0.74, Time: 143.69, Ҥ1: 0.56, Ҥ2:0.54, mse : 0.15, ce : 0.81, csr : 0.15, T : 0.04
+run:9, σ: 0.45, L: 7, TrainAcc: 0.81, TestAcc: 0.72, Time: 143.87, Ҥ1: 0.53, Ҥ2:0.53, mse : 0.15, ce : 0.86, csr : 0.17, T : 0.05
+run:10, σ: 0.43, L: 6, TrainAcc: 0.84, TestAcc: 0.76, Time: 134.79, Ҥ1: 0.57, Ҥ2:0.50, mse : 0.14, ce : 0.76, csr : 0.15, T : 0.04
+
+data         smallest σ   layer #      Train Acc    Test Acc     Time         H            mse          ce           C            T            
+cifar10      0.37         7.20±0.75    0.81±0.02    0.74±0.02    148.50±9.48  0.55±0.02    0.15±0.01    0.83±0.05    0.15±0.01    0.04±0.00    
