@@ -26,7 +26,7 @@ np.set_printoptions(linewidth=300)
 np.set_printoptions(suppress=True)
 
 
-class wumasoomi():
+class NIK_Ws():
 	def __init__(self, X, Y, data_name, smallest_σ=0.0001, number_of_σ_to_test=10, HSIC_exit_threshold=0.95, use_kernel_trick=True):	
 		self.db = db = {}
 		self.db['X'] = X
@@ -53,25 +53,13 @@ class wumasoomi():
 if __name__ == "__main__":
 
 # Run 10 Fold, uncomment the experiment you want to run
-#	run_10_fold('adversarial', wumasoomi, smallest_σ=0.001, number_of_σ_to_test=20)
-#	run_10_fold('wine', wumasoomi, smallest_σ=0.05, number_of_σ_to_test=20)
-#	run_10_fold('cancer', wumasoomi, smallest_σ=0.05, number_of_σ_to_test=20)
-#	run_10_fold('random', wumasoomi, smallest_σ=0.05, number_of_σ_to_test=20)
-#	run_10_fold('spiral', wumasoomi, smallest_σ=0.05, number_of_σ_to_test=20)
-#	run_10_fold('car', wumasoomi, smallest_σ=0.05, number_of_σ_to_test=20)
-#	run_10_fold('divorce', wumasoomi, smallest_σ=0.1, number_of_σ_to_test=40, use_kernel_trick=True)
-	run_10_fold('face', wumasoomi, smallest_σ=0.05, number_of_σ_to_test=20)
-#	run_10_fold('cifar10', wumasoomi, smallest_σ=0.05, number_of_σ_to_test=20)
-
-
-	#evaluate_10_fold_result('./results/' + data_name + '/10Fold_summary.txt')
-	#CS = class_data_stats(X, Y)
-	#CS.get_class_info()
-
-	#wm = wumasoomi(X,Y, data_name)
-	#wm.train()
-
-
-
-
+#	run_10_fold('adversarial', NIK_Ws, smallest_σ=0.001, number_of_σ_to_test=20)
+#	run_10_fold('wine', NIK_Ws, smallest_σ=0.05, number_of_σ_to_test=20)
+#	run_10_fold('cancer', NIK_Ws, smallest_σ=0.05, number_of_σ_to_test=20)
+#	run_10_fold('random', NIK_Ws, smallest_σ=0.05, number_of_σ_to_test=20)
+#	run_10_fold('spiral', NIK_Ws, smallest_σ=0.05, number_of_σ_to_test=20)
+#	run_10_fold('car', NIK_Ws, smallest_σ=0.05, number_of_σ_to_test=20)
+#	run_10_fold('divorce', NIK_Ws, smallest_σ=0.1, number_of_σ_to_test=40, use_kernel_trick=True)
+	run_10_fold('face', NIK_Ws, smallest_σ=0.05, number_of_σ_to_test=20)
+#	run_10_fold('cifar10', NIK_Ws, smallest_σ=0.05, number_of_σ_to_test=20)
 
