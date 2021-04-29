@@ -1,6 +1,14 @@
 #!/usr/bin/env python
 
 import os 
+from pathlib import Path
+
+def go_up_1_directory(full_path):	# path should be a string
+	return str(Path(full_path).parents[0])
+
+def initialize_empty_folder(path):
+	ensure_path_exists(path)
+	remove_files(path)
 
 def file_exists(path):
 	if os.path.exists(path): return True

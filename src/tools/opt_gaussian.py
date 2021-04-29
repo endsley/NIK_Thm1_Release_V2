@@ -21,9 +21,10 @@ np.set_printoptions(suppress=True)
 
 
 class opt_gaussian():
-	def __init__(self, X, Y, σ_type='ℍ'):	#	X=data, Y=label, σ_type='ℍ', or 'maxKseparation'
+	def __init__(self, X, Y, Y_kernel):	#	X=data, Y=label, σ_type='ℍ', or 'maxKseparation'
 		ń = X.shape[0]
 		ð = X.shape[1]
+		self.Y_kernel = Y_kernel
 
 		if ń > 200:
 			#	Down sample first
@@ -33,68 +34,89 @@ class opt_gaussian():
 			ń = X.shape[0]
 
 
-		self.Ⅱᵀ = np.ones((ń,ń))
-		ńᒾ = ń*ń
-		Yₒ = OneHotEncoder(categories='auto', sparse=False).fit_transform(np.reshape(Y,(len(Y),1)))
-		self.Kᵧ = Kᵧ = Yₒ.dot(Yₒ.T)
-		ṉ = np.sum(Kᵧ)
-		self.σ_type = σ_type
+		if Y_kernel == 'linear':
+			self.Ⅱᵀ = np.ones((ń,ń))
+			ńᒾ = ń*ń
+			Yₒ = OneHotEncoder(categories='auto', sparse=False).fit_transform(np.reshape(Y,(len(Y),1)))
+			self.Kᵧ = Kᵧ = Yₒ.dot(Yₒ.T)
+			ṉ = np.sum(Kᵧ)
+			σᵧ = 1
 
-		Ð = sklearn.metrics.pairwise.pairwise_distances(X)
-		self.σₒ = np.median(Ð)
-		self.Ðᒾ = (-Ð*Ð)/2
-
-		if σ_type == 'ℍ':
-			HKᵧ = Kᵧ - np.mean(Kᵧ, axis=0)								# equivalent to Γ = Ⲏ.dot(Kᵧ).dot(Ⲏ)
+			HKᵧ = self.Kᵧ - np.mean(self.Kᵧ, axis=0)								# equivalent to Γ = Ⲏ.dot(Kᵧ).dot(Ⲏ)
 			self.Γ = HKᵧH = (HKᵧ.T - np.mean(HKᵧ.T, axis=0)).T
 
-			self.result = minimize(self.ℍ, self.σₒ, method='BFGS', options={'gtol': 1e-5, 'disp': False})
-		else:
-			self.ɡ = ɡ = 1.0/ṉ
-			self.ḡ = ḡ = 1.0/(ńᒾ - ṉ)
-	
-			self.Q = ḡ*self.Ⅱᵀ - (ɡ + ḡ)*Kᵧ
-			self.result = minimize(self.maxKseparation, self.σₒ, method='BFGS', options={'gtol': 1e-6, 'disp': False})
+		elif Y_kernel == 'Gaussian':
+			Ðᵧ = sklearn.metrics.pairwise.pairwise_distances(Y)
+			σᵧ = np.median(Ðᵧ)
+			self.Ðᵧᒾ = (-Ðᵧ*Ðᵧ)
 
 
+		#	X_kernel == 'Gaussian'
+		Ðₓ = sklearn.metrics.pairwise.pairwise_distances(X)
+		σₓ = np.median(Ðₓ)
+		self.Ðₓᒾ = (-Ðₓ*Ðₓ)
 
-	def maxKseparation(self, σ):
-		Kₓ = np.exp(self.Ðᒾ/(σ*σ))
-		loss = np.sum(Kₓ*self.Q)
-		return loss
+		self.σ = [σₓ, σᵧ]
+
+	def minimize_H(self):
+		self.result = minimize(self.ℍ, self.σ, method='BFGS', options={'gtol': 1e-5, 'disp': False})
 
 	def ℍ(self, σ):
-		Kₓ = np.exp(self.Ðᒾ/(σ*σ))
-		Kᵧ = self.Kᵧ
-		Γ = self.Γ
+		[σₓ, σᵧ] = σ
+		Kₓ = np.exp(self.Ðₓᒾ/(2*σₓ*σₓ))
+
+
+		if self.Y_kernel == 'linear':
+			Γ = self.Γ		
+		elif self.Y_kernel == 'Gaussian':
+			Kᵧ = np.exp(self.Ðᵧᒾ/(2*σᵧ*σᵧ))
+			HKᵧ = Kᵧ - np.mean(Kᵧ, axis=0)								# equivalent to Γ = Ⲏ.dot(Kᵧ).dot(Ⲏ)
+			Γ = HKᵧH = (HKᵧ.T - np.mean(HKᵧ.T, axis=0)).T
+
 
 		loss = -np.sum(Kₓ*Γ)
 		return loss
 
-	def debug(self):
-		if self.σ_type == 'ℍ':
-			ℍ_debug(self)
-		else:
-			maxKseparation_debug(self)
 
+def get_opt_σ(X,Y, Y_kernel='Gaussian', min_σ=0.02):
+	optimizer = opt_gaussian(X,Y, Y_kernel=Y_kernel)
+	optimizer.minimize_H()
+	σ = np.absolute(optimizer.result.x[0])
+	if σ < min_σ: σ = min_σ
+	return σ
 
-def get_opt_σ(X,Y):
-	optimizer = opt_gaussian(X,Y)	
+def get_opt_σ_via_random(X,Y, Y_kernel='Gaussian'):
+	optimizer = opt_gaussian(X,Y, Y_kernel=Y_kernel)
+
+	opt = 0
+	opt_σ = 0
+	for m in range(1000):
+		σ = (7*np.random.rand(2)).tolist()
+		new_opt = -optimizer.ℍ(σ)
+		if opt < new_opt:
+			opt = new_opt
+			opt_σ = σ
+
+	print('Random Result ')
+	print('\tbest_σ : ', opt_σ)
+	print('\tmax_HSIC : ' , opt)
 
 
 if __name__ == "__main__":
-	from debug import *
-
-	data_name = 'wine_2'
-	X = np.loadtxt('data/' + data_name + '.csv', delimiter=',', dtype=np.float64)			
-	Y = np.loadtxt('data/' + data_name + '_label.csv', delimiter=',', dtype=np.int32)			
-	X_test = np.loadtxt('data/' + data_name + '_test.csv', delimiter=',', dtype=np.float64)			
-	Y_test = np.loadtxt('data/' + data_name + '_label_test.csv', delimiter=',', dtype=np.int32)			
-
+	data_name = 'wine'
+	X = np.loadtxt('../dataset/' + data_name + '.csv', delimiter=',', dtype=np.float64)			
+	Y = np.loadtxt('../dataset/' + data_name + '_label.csv', delimiter=',', dtype=np.int32)			
 	X = preprocessing.scale(X)
-	X_test = preprocessing.scale(X_test)
 
-	opt_σ = opt_gaussian(X,Y, σ_type='ℍ')	#σ_type='ℍ' or 'maxKseparation'
 
-	opt_σ.debug()
+	optimized_results = get_opt_σ(X,Y, Y_kernel='linear')
+	best_σ = optimized_results.x
+	max_HSIC = -optimized_results.fun
+	print('Optimized Result ')
+	print('\tbest_σ : ', best_σ)
+	print('\tmax_HSIC : ' , max_HSIC)
+
+
+	optimized_results = get_opt_σ_via_random(X,Y, Y_kernel='linear')
+
 
