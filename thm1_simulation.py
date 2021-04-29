@@ -53,13 +53,13 @@ class NIK_Ws():
 if __name__ == "__main__":
 
 # Run 10 Fold, uncomment the experiment you want to run
-#	run_10_fold('adversarial', NIK_Ws, smallest_σ=0.001, number_of_σ_to_test=20)
+	run_10_fold('adversarial', NIK_Ws, smallest_σ=0.001, number_of_σ_to_test=20)
 #	run_10_fold('wine', NIK_Ws, smallest_σ=0.05, number_of_σ_to_test=20)
 #	run_10_fold('cancer', NIK_Ws, smallest_σ=0.05, number_of_σ_to_test=20)
 #	run_10_fold('random', NIK_Ws, smallest_σ=0.05, number_of_σ_to_test=20)
 #	run_10_fold('spiral', NIK_Ws, smallest_σ=0.05, number_of_σ_to_test=20)
 #	run_10_fold('car', NIK_Ws, smallest_σ=0.05, number_of_σ_to_test=20)
 #	run_10_fold('divorce', NIK_Ws, smallest_σ=0.1, number_of_σ_to_test=40, use_kernel_trick=True)
-	run_10_fold('face', NIK_Ws, smallest_σ=0.05, number_of_σ_to_test=20)
+#	run_10_fold('face', NIK_Ws, smallest_σ=0.05, number_of_σ_to_test=20)
 #	run_10_fold('cifar10', NIK_Ws, smallest_σ=0.05, number_of_σ_to_test=20)
 
